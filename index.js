@@ -1,14 +1,15 @@
 'use strict';
 
-const RegexParser = require('./regex-parser');
-const Dfa = require('./dfa');
-const MultiAutomata = require('./multi-automata');
+const MultiRegexp = require('./multi-regexp');
 
-let parser = new RegexParser();
-let nfa = parser.parse('abc|bc');
-let dfa = Dfa.fromNfa(nfa);
-let min = Dfa.minimize(dfa);
-let multi = new MultiAutomata();
-multi.addDfa('test', min);
-
-multi.print();
+let multi = new MultiRegexp([
+    {
+        name: 'one'
+        , pattern: 'ab*'
+    }, {
+        name: 'two'
+        , pattern: 'b+c'
+    }
+]);
+multi._automata.print();
+console.log(multi.scan('abbcc'));
